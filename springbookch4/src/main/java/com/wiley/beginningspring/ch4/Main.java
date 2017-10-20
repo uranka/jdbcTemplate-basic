@@ -18,17 +18,21 @@ public class Main {
         System.out.println(account.getAccessTime());
         System.out.println(account.isLocked());
 
-/*
-        account = accountDao.find("john doe").get(0); // first from list
-        System.out.println(account.getId());
-        System.out.println(account.getOwnerName());
-        System.out.println(account.getBalance());
-        System.out.println(account.getAccessTime());
-        System.out.println(account.isLocked());
-*/
-
+        System.out.println("*********************************************");
+        // find all accounts whose owner is john doe
         List<Account> lst = accountDao.find("john doe");
         for (Account account1 : lst) {
+            System.out.println(account1.getId());
+            System.out.println(account1.getOwnerName());
+            System.out.println(account1.getBalance());
+            System.out.println(account1.getAccessTime());
+            System.out.println(account1.isLocked());
+        }
+
+        System.out.println("*********************************************");
+        // find all accounts with locked = false
+        List<Account> lstLocked = accountDao.find(false);
+        for (Account account1 : lstLocked) {
             System.out.println(account1.getId());
             System.out.println(account1.getOwnerName());
             System.out.println(account1.getBalance());

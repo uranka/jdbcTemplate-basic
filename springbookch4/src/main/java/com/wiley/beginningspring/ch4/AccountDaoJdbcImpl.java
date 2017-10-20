@@ -1,11 +1,13 @@
 package com.wiley.beginningspring.ch4;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreatorFactory;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.Collections;
 import java.util.List;
 
@@ -75,6 +77,24 @@ public class AccountDaoJdbcImpl implements AccountDao {
     }
 
     public List<Account> find(boolean locked) {
-        return null;
+        PreparedStatementCreatorFactory psCreatorFactory =
+                new PreparedStatementCreatorFactory(
+                        "select * from account where locked = ?",
+                        new int[] {Types.BOOLEAN} );
+
+        return jdbcTemplate.query(
+                psCreatorFactory.newPreparedStatementCreator(new Object[] {locked}), // daje ulazni parametar za ?
+                new RowMapper<Account>() {
+                    public Account mapRow(ResultSet rs, int rowNum) throws SQLException {
+                        Account account = new Account();
+                        account.setId(rs.getLong("id"));
+                        account.setOwnerName(rs.getString("owner_name"));
+                        account.setBalance(rs.getDouble("balance"));
+                        account.setAccessTime(rs.getTimestamp("access_time"));
+                        account.setLocked(rs.getBoolean("locked"));
+                        return account;
+                    }
+                });
     }
+
 }
