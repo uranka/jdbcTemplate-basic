@@ -4,6 +4,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreatorFactory;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,8 +24,23 @@ public class AccountDaoJdbcImpl implements AccountDao {
     }
 
     public void insert(Account account) {
+        PreparedStatementCreatorFactory psCreatorFactory =
+                new PreparedStatementCreatorFactory(
+                        "insert into account(owner_name, balance, access_time, locked) values(?, ?, ?, ?)",
+                        new int[] {Types.VARCHAR, Types.DOUBLE, Types.TIMESTAMP, Types.BOOLEAN} );
 
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        int count = jdbcTemplate.update(
+                psCreatorFactory.newPreparedStatementCreator(new Object[] {
+                        account.getOwnerName(), account.getBalance(),
+                        account.getAccessTime(), account.isLocked() }),
+                        keyHolder);
+        if (count != 1) throw new InsertFailedException("Cannot insert account");
+        //Set the id value obtained from keyHolder to the Account instance
+        account.setId(keyHolder.getKey().longValue());
     }
+
+
 
     public void update(Account account) {
 

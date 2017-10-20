@@ -1,6 +1,7 @@
 package com.wiley.beginningspring.ch4;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -39,6 +40,15 @@ public class Main {
             System.out.println(account1.getAccessTime());
             System.out.println(account1.isLocked());
         }
+
+        // inserts one account
+        Account account1 = new Account();
+        account1.setOwnerName("Joe Smith");
+        account1.setBalance(20.0);
+        account1.setAccessTime(new Date());
+        account1.setLocked(false);
+
+        accountDao.insert(account1);
 
     }
 }
