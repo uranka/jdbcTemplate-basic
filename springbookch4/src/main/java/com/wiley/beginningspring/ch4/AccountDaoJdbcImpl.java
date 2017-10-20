@@ -55,9 +55,13 @@ public class AccountDaoJdbcImpl implements AccountDao {
 
     }
 
-    public void delete(long accountId) {
 
+    public void delete(long accountId) {
+        int count = jdbcTemplate
+                .update("delete account where id = ?", accountId);
+        if (count != 1) throw new DeleteFailedException("Cannot delete account");
     }
+
 
     public Account find( long accountId) {
         return jdbcTemplate.queryForObject (

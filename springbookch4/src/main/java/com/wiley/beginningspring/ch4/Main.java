@@ -40,6 +40,8 @@ public class Main {
             System.out.println(account1.getAccessTime());
             System.out.println(account1.isLocked());
         }
+        System.out.println("*********************************************");
+        System.out.println("*********************************************");
 
         // inserts one account
         Account account1 = new Account();
@@ -50,12 +52,21 @@ public class Main {
 
         accountDao.insert(account1);
 
+        account1 = accountDao.find(account1.getId());
+
+        System.out.println(account1.getId());
+        System.out.println(account1.getOwnerName());
+        System.out.println(account1.getBalance());
+        System.out.println(account1.getAccessTime());
+        System.out.println(account1.isLocked());
+
+
         // update account1 balance, set it to 25.0
         account1.setBalance(25.0);
         accountDao.update(account1);
-
-        // check in database to see whether account is updated
-
+        //delete same account
+        account1 = accountDao.find(account1.getId());
+        accountDao.delete(account1.getId());
 
     }
 }
