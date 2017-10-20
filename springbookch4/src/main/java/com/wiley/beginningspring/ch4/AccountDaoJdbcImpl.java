@@ -40,11 +40,16 @@ public class AccountDaoJdbcImpl implements AccountDao {
         account.setId(keyHolder.getKey().longValue());
     }
 
-
-
     public void update(Account account) {
-
+        int count = jdbcTemplate
+                .update("update account  set (owner_name,balance,access_time,locked) = (?,?,?,?) where id = ?",
+                        account.getOwnerName(), account.getBalance(),
+                        account.getAccessTime(), account.isLocked(),
+                        account.getId());
+        if (count != 1)
+            throw new UpdateFailedException("Cannot update account");
     }
+
 
     public void update(List<Account> accounts) {
 

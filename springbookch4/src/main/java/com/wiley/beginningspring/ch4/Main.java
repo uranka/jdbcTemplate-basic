@@ -43,12 +43,19 @@ public class Main {
 
         // inserts one account
         Account account1 = new Account();
-        account1.setOwnerName("Joe Smith");
+        account1.setOwnerName("Marko Markov");
         account1.setBalance(20.0);
         account1.setAccessTime(new Date());
         account1.setLocked(false);
 
         accountDao.insert(account1);
+
+        // update account1 balance, set it to 25.0
+        account1.setBalance(25.0);
+        accountDao.update(account1);
+
+        // check in database to see whether account is updated
+
 
     }
 }
