@@ -1,7 +1,10 @@
 package com.wiley.beginningspring.ch4;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 public class AccountDaoJdbcImpl implements AccountDao {
@@ -28,9 +31,23 @@ public class AccountDaoJdbcImpl implements AccountDao {
 
     }
 
-    public Account find(long accountId) {
-        return null;
+    public Account find( long accountId) {
+        return jdbcTemplate.queryForObject (
+                "select id,owner_name,balance,access_time,locked from account where id = ?",
+                new RowMapper<Account>() {
+                    public Account mapRow(ResultSet rs, int rowNum) throws SQLException {
+                        Account account = new Account();
+                        account.setId(rs.getLong("id"));
+                        account.setOwnerName(rs.getString("owner_name"));
+                        account.setBalance(rs.getDouble("balance"));
+                        account.setAccessTime(rs.getTimestamp("access_time"));
+                        account.setLocked(rs.getBoolean("locked"));
+                        return account;
+                    }
+                },
+                accountId);
     }
+
 
     public List<Account> find(List<Long> accountIds) {
         return null;

@@ -10,5 +10,12 @@ public class Main {
 
         AccountDao accountDao = applicationContext.getBean(AccountDao.class);
 
+        Account account= accountDao.find(100L);
+        System.out.println(account.getId());
+        System.out.println(account.getOwnerName());
+        System.out.println(account.getBalance());
+        System.out.println(account.getAccessTime());
+        System.out.println(account.isLocked());
+
     }
 }
