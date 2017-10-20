@@ -1,0 +1,12 @@
+--kreiranje tabele
+CREATE TABLE ACCOUNT (
+ID BIGINT IDENTITY PRIMARY KEY,
+OWNER_NAME VARCHAR(255),
+BALANCE DOUBLE,
+ACCESS_TIME TIMESTAMP,
+LOCKED BOOLEAN
+)
+--ubacivanje podataka
+insert into account (id,owner_name,balance,access_time,locked) values (100,' john doe',10.0,'2014-01-01',false);
+insert into account (id,owner_name,balance,access_time,locked) values (101,'donald trump',20.0,'2014-02-02',false);
+insert into account (id,owner_name,balance,access_time,locked) values (102,'john doe',30.0,'2014-03-03',false);
